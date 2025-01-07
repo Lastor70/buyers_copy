@@ -86,9 +86,9 @@ if st.button("Выгрузить и обработать данные"):
     st.session_state['total_vykup'] = total_vykup
     progress_bar.progress(100)
 
-    st.write(df_grouped)
+    # st.write(df_grouped)
     
-    # st.write(processed_orders)
+    st.write(processed_orders)
 
 
 
