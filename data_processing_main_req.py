@@ -196,7 +196,7 @@ def process_orders_data(df, combined_df, df_payment, df_appruv_range, df_grouped
     merged_ss['Коэф. Апрува'] = merged_ss['% Аппрува'].apply(lambda x: get_appruv_coefficient(x, df_appruv_range))
     merged_ss['Средняя сумма в апрувах'] = merged_ss['Сума'] / merged_ss['Кількість аппрувів']
     merged_ss['Лид от $'], merged_ss['Лид до $'] = zip(*merged_ss['Средняя сумма в апрувах'].map(lambda x: find_lead_range(x, df_payment)))
-    merged_ss['Виплата баеру'] = merged_ss['Средняя сумма в апрувах'] * 0.05 * 1000 * 0.000080
+    merged_ss['Виплата баеру'] = merged_ss['Средняя сумма в апрувах'] * 0.06 * 1000 * 0.000080
 
 
     merged_ss = merge_data(merged_ss, df_grouped, b)
