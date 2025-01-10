@@ -88,7 +88,7 @@ if st.button("Выгрузить и обработать данные"):
 
     # st.write(df_grouped)
     
-    st.write(processed_orders)
+    # st.write(processed_orders)
 
 
 

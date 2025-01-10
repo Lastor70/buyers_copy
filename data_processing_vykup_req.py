@@ -66,7 +66,7 @@ def process_orders_data_vykup(df, combined_df, df_payment, df_appruv_range, df_g
 
     try:
         total_vykup['Коэф. Апрува'] = total_vykup['% Аппрува'].apply(lambda x: get_appruv_coefficient(x, df_appruv_range)).str.replace(',', '.').astype(float)
-        total_vykup['Виплата баеру'] = total_vykup['Сума'] * 0.05 * 1000 * 0.000080 * total_vykup['Коэф. Слож.'] * total_vykup['Коэф. Апрува']
+        total_vykup['Виплата баеру'] = total_vykup['Сума'] * 0.06 * 1000 * 0.000080 * total_vykup['Коэф. Слож.'] * total_vykup['Коэф. Апрува']
     except:
         total_vykup['Коэф. Апрува'] = 0
         total_vykup['Виплата баеру'] = 0
@@ -124,7 +124,7 @@ def process_total_vykup(processed_vykups, df_all_cs_catalog, car_space_merged, c
 
     try:
         total_vykup_cs_catalog['Коэф. Апрува'] = total_vykup_cs_catalog['% Аппрува'].apply(lambda x: get_appruv_coefficient(x, df_appruv_range)).str.replace(',', '.').astype(float)
-        total_vykup_cs_catalog['Виплата баеру'] = total_vykup_cs_catalog['Сума'] * 0.05 * 1000 * 0.000080 * total_vykup_cs_catalog['Коэф. Слож.'] * total_vykup_cs_catalog['Коэф. Апрува']
+        total_vykup_cs_catalog['Виплата баеру'] = total_vykup_cs_catalog['Сума'] * 0.06 * 1000 * 0.000080 * total_vykup_cs_catalog['Коэф. Слож.'] * total_vykup_cs_catalog['Коэф. Апрува']
     except:
         total_vykup_cs_catalog['Коэф. Апрува'] = 0
         total_vykup_cs_catalog['Виплата баеру'] = 0
