@@ -46,28 +46,14 @@ def count_unique_orders(df, column_name):
     return unique_orders_counts
 
 def get_appruv_coefficient(approval_percent, df_appruv_range):
-    for range_str, coefficient in zip(df_appruv_range['Диапазон апрува'], df_appruv_range['Бонус/Вычет от чистой выплаты']):
-        if not range_str:  # перевірка на порожній рядок
-            continue
-        if '<' in range_str:
-            try:
-                if approval_percent < float(range_str[1:]):
-                    return coefficient
-            except ValueError:
-                continue
-        elif '>' in range_str:
-            try:
-                if approval_percent > float(range_str[1:]):
-                    return coefficient
-            except ValueError:
-                continue
-        else:
-            try:
-                range_start, range_end = map(float, range_str.split('-'))
-                if range_start <= approval_percent <= range_end:
-                    return coefficient
-            except ValueError:
-                continue
+    df_appruv_range['Threshold'] = df_appruv_range['Диапазон апрува'].str.extract(r'(\d+)', expand=False).astype(float)
+
+    sorted_df = df_appruv_range.sort_values(by='Threshold', ascending=False)
+
+    for threshold, coefficient in zip(sorted_df['Threshold'], sorted_df['Бонус/Вычет от чистой выплаты']):
+        if approval_percent >= threshold: 
+            return coefficient
+
     return None
 
 def find_lead_range(average_sum, df_payment):

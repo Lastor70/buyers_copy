@@ -14,7 +14,7 @@ def fetch_and_process_payment_sheet(gc, spreadsheet_id, sheet_name):
     df_appruv_range.columns = df_appruv_range.iloc[1]
     df_appruv_range = df_appruv_range[2:].dropna(how='all')
     df_appruv_range['Диапазон апрува'] = df_appruv_range['Диапазон апрува'].str.replace('[^0-9<>-]', '', regex=True)
-    df_appruv_range = df_appruv_range[:5]
+    # df_appruv_range = df_appruv_range[:5]
     
     # обробка df_payment
     df_pay = df_payment.iloc[0:, 1:4].dropna(how='all')
@@ -44,6 +44,6 @@ def fetch_and_process_payment_sheet(gc, spreadsheet_id, sheet_name):
 
     df_buyers_name = df_buyers_name.dropna(how='all').reset_index(drop=True)
     df_buyers_name = df_buyers_name[df_buyers_name['buyer_id'].str.len() >= 2]
-
+    # print(df_appruv_range)
 
     return df_pay, df_appruv_range,df_buyers_name
