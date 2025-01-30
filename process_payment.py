@@ -33,6 +33,8 @@ def fetch_and_process_payment_sheet(gc, spreadsheet_id, sheet_name):
             return None, None
 
     df_pay[['Лид от $', 'Лид до $']] = df_pay['Диапазон лида:'].apply(lambda x: pd.Series(extract_lead_range(x)))
+    df_pay = df_pay[df_pay['Сумма по товарам(вкл.)'].apply(lambda x: len(str(x)) > 2)]
+    print(df_pay)
     df_pay['Сумма по товарам(вкл.)'] = df_pay['Сумма по товарам(вкл.)'].apply(extract_numbers)
     df_pay['Выплата за выкуп(ставка)'] = df_pay['Выплата за выкуп(ставка)'].str.replace('$', '').str.replace(',', '.').astype(float)
 

@@ -19,7 +19,7 @@ google_sheets_creds = st.secrets["gcp_service_account"]
 spreadsheet_id_offers = '15GvP6wElztDSQKqk5kxnB37dKxKi3nTyEsTbBF1vqW4'
 combined_df = fetch_offers_data(spreadsheet_id_offers, dict(google_sheets_creds))
 # отримання даних виплат
-sheet_name_payment = 'Выплата (new)'
+sheet_name_payment = 'Выплата (new) копия'
 df_payment, df_appruv_range,df_buyers_name = fetch_payment_data(spreadsheet_id_offers, sheet_name_payment, dict(google_sheets_creds))
 
 
