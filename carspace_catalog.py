@@ -36,6 +36,8 @@ def process_dataset(df, df_payment,df_grouped,combined_df,b, cash, df_appruv_ran
       merged['Лид от $'], merged['Лид до $'] = zip(*merged['Средняя сумма в апрувах'].map(lambda x: find_lead_range(x, df_payment)))
       merged['Лид до $'] = merged['Лид до $'].str.replace(',', '.').astype(float)
       merged['Коэф. Апрува'] = merged['Коэф. Апрува'].str.replace(',', '.').astype(float)
+       #лид до умножаем на аппрув
+      merged['Лид до $'] = merged['Лид до $'] * merged['Коэф. Апрува']
     except:
       pass
 
