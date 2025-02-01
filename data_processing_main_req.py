@@ -93,6 +93,20 @@ def merge_data(df, all_fb, user_prefix):
         # print(f"Помилка при злитті датафреймів: {e}")
         return df
 
+def merge_data_non_his_offers(df, all_fb):
+    try:
+        if df.empty:
+            print("Порожній датафрейм")
+            return df
+        filtered_all_fb = all_fb
+        df = df.merge(filtered_all_fb, how='outer', left_on='offer_id(заказа)', right_on='offer_id')
+        df = df[~(df['Кількість лідів'].isna() & (df['Рекл.спенд.'] == 0))]
+
+        return df
+    except Exception as e:
+        # print(f"Помилка при злитті датафреймів: {e}")
+        return df
+
 
 def process_orders_data(df, combined_df, df_payment, df_appruv_range, df_grouped, b):
     """Обробляє отримані замовлення та форматує DataFrame."""
@@ -185,7 +199,10 @@ def process_orders_data(df, combined_df, df_payment, df_appruv_range, df_grouped
     merged_ss['Виплата баеру'] = merged_ss['Средняя сумма в апрувах'] * 0.06 * 1000 * 0.000080
 
 
-    merged_ss = merge_data(merged_ss, df_grouped, b)
+    if b == 'mh' or b == 'vt':
+        merged_ss = merge_data_non_his_offers(merged_ss, df_grouped)
+    else:
+        merged_ss = merge_data(merged_ss, df_grouped, b)
 
     merged_ss = pd.merge(merged_ss, combined_df[['ID Оффера', 'Коэф. Слож.', 'Название оффера']], left_on='offer_id(заказа)', right_on='ID Оффера', how='left')
     merged_ss['Лид до $'] = merged_ss['Лид до $'].str.replace(',', '.').astype(float)
