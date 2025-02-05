@@ -20,7 +20,7 @@ def fetch_google_sheet_data(spreadsheet_id, sheet_name, secret_name, buyer_name)
     df = pd.DataFrame(data, columns=headers)
     df['User Token'] = df['User Token'].replace('', '0')
     df = df[df['User Token'].str.len() >= 10]
-    df = df[df['Buyer'].isin([buyer_name, 'ss'])]
+    df = df[df['Buyer'].isin([buyer_name, 'vd'])]
     
     return df
 
