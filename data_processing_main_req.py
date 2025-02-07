@@ -217,8 +217,10 @@ def process_orders_data(df, combined_df, df_payment, df_appruv_range, df_grouped
     # print(merged_ss[merged_ss['offer_id(заказа)'] == 'ss-il-0071'])
     spend_wo_leads = spend_wo_leads[spend_wo_leads['offer_id'].str.match(r'^[a-zA-Z]{2}-[a-zA-Z]{2}-\d{4}$', na=False)]
     spend_wo_leads = spend_wo_leads.rename(columns = {'spend':'Рекл.спенд.','leads': 'Лидов из ads'})
-    print(spend_wo_leads)
 
 
-    merged_ss = merged_ss[merged_ss['offer_id(заказа)'].notna()]
+    merged_ss = merged_ss[(merged_ss['offer_id(заказа)'].notna())]
+    merged_ss = merged_ss[~((merged_ss['offer_id(заказа)'] == 'ss-ss-0076') & (merged_ss['leads'] <= 0))]
+    # print(merged_ss)
+    
     return merged_ss, spend_wo_leads, df_items_expanded

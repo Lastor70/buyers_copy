@@ -103,7 +103,7 @@ async def get_campaign_data(session, campaign_id, access_token, start_date, end_
     params = {
         'level': 'campaign',
         'fields': 'spend,actions',
-        'action_attribution_windows': '1d_click',
+        # 'action_attribution_windows': '1d_click',
         'time_range[since]': start_date,
         'time_range[until]': end_date,
         'access_token': access_token
