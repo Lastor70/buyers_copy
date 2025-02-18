@@ -199,6 +199,7 @@ def process_orders_data(df, combined_df, df_payment, df_appruv_range, df_grouped
     merged_ss['Виплата баеру'] = merged_ss['Средняя сумма в апрувах'] * 0.06 * 1000 * 0.000080
 
 
+
     if b not in ['ss', 'mb','dm','il','vd','ph']:
         merged_ss = merge_data_non_his_offers(merged_ss, df_grouped)
     else:
