@@ -28,5 +28,5 @@ def fetch_payment_data(spreadsheet_id, sheet_name, creds_dict):
     return fetch_and_process_payment_sheet(gc, spreadsheet_id, sheet_name)
 
 @st.cache_data(ttl=3600)
-def cached_fetch_facebook_data(df_tokens, start_date_str, end_date_str):
-    return fetch_facebook_data(df_tokens, start_date_str, end_date_str)
+def cached_fetch_facebook_data(df_tokens, start_date_str, end_date_str,b):
+    return fetch_facebook_data(df_tokens, start_date_str, end_date_str,b)

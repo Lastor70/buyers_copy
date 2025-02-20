@@ -138,16 +138,18 @@ async def get_campaign_data_for_filtered_df(filtered_df, start_date, end_date):
 
         return filtered_df
 
-def fetch_facebook_data(df_tokens, start_date_str, end_date_str):
+def fetch_facebook_data(df_tokens, start_date_str, end_date_str,b):
     tokens = df_tokens['User Token'].explode().tolist() if 'User Token' in df_tokens else []
-    
     if tokens:
         ad_accounts_df = get_all_accounts(tokens)
         campaigns_data = get_all_campaigns_data(ad_accounts_df)
         campaigns_data['offer_id'] = campaigns_data['Campaign Name'].apply(lambda x: x.split('|')[2].strip() if len(x.split('|')) > 2 else None)
+        campaigns_data['buyer_id'] = campaigns_data['Campaign Name'].apply(lambda x: x.split('|')[1].strip() if len(x.split('|')) > 2 else None)
+        
         campaigns_data = campaigns_data.dropna(subset=['offer_id'])
+        campaigns_data = campaigns_data[campaigns_data['buyer_id']==b]
+        print(campaigns_data)
         df_campaign_data = asyncio.run(get_campaign_data_for_filtered_df(campaigns_data, start_date_str, end_date_str))
-        print(111)
         df_grouped = group_data_by_offer_id(df_campaign_data)
         return df_grouped
     return None

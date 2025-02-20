@@ -49,7 +49,7 @@ if st.button("Выгрузить и обработать данные"):
     progress_bar = st.progress(0)
 
     # Отримання даних з ФБ
-    df_grouped = cached_fetch_facebook_data(df_tokens, start_date_str, end_date_str)
+    df_grouped = cached_fetch_facebook_data(df_tokens, start_date_str, end_date_str,b)
     st.session_state['df_grouped'] = df_grouped
     progress_bar.progress(20)
 
