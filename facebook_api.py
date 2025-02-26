@@ -159,7 +159,7 @@ def group_data_by_offer_id(df):
         df['spend'] = pd.to_numeric(df['spend'], errors='coerce')
         df.drop_duplicates(['Campaign ID'],inplace=True)
         # print(df[df['offer_id'] == 'ss-ss-0167'])
-        df_grouped = df.groupby('offer_id').agg({'spend': 'sum', 'leads': 'sum'}).reset_index()
+        df_grouped = df.groupby('offer_id').agg({'spend': 'sum', 'leads': 'sum','buyer_id':'first'}).reset_index()
         df_grouped['offer_id'] = df_grouped['offer_id'].str.replace('\ufeff', '', regex=False)
         # print(df_grouped[df_grouped['offer_id'].str.contains('tv-mb-0003')]['offer_id'].iloc[0])
         

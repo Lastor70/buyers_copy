@@ -157,7 +157,6 @@ def process_orders_data(df, combined_df, df_payment, df_appruv_range, df_grouped
     ss_dataset = df_items_expanded
 
     ss_dataset = add_match_column(ss_dataset, 'offer_id(товара)', 'offer_id(заказа)')
-    
     ss_dataset['Corresponding_Offer_Id_Found'] = ss_dataset.apply(find_offer_id, args=(combined_df,), axis=1).fillna(0)
     # ss_dataset = ss_dataset.loc[ss_dataset['Corresponding_Offer_Id_Found'] == 1]
     if  b == 'dn':
@@ -166,7 +165,7 @@ def process_orders_data(df, combined_df, df_payment, df_appruv_range, df_grouped
     else:
         ss_dataset = ss_dataset\
         .assign(cor_sum = lambda x: x.groupby('Номер замовлення')['Corresponding_Offer_Id_Found'].transform('sum'))\
-        .query('cor_sum > 0')
+        # .query('cor_sum > 0')
 
     ss_new = ss_dataset[~ss_dataset['Статус'].isin(['testy','duplicate'])]
 
@@ -214,14 +213,17 @@ def process_orders_data(df, combined_df, df_payment, df_appruv_range, df_grouped
         
     spend_wo_leads = merged_ss[merged_ss['offer_id(заказа)'].isna() & merged_ss['spend']>0]
     
-    merged_ss = merged_ss[merged_ss['offer_id(заказа)'].str.match(r'^[a-zA-z]{2}-[a-zA-z]{2}-\d{4}$') & merged_ss['offer_id(заказа)'].notna()]  #прибираю категорії
+    merged_ss = merged_ss[
+    merged_ss['offer_id(заказа)'].str.match(r'^[a-zA-Z]{2}-[a-zA-Z]{2}-\d{4}(-[a-zA-Z]{2})?$')
+        & merged_ss['offer_id(заказа)'].notna()
+        ]
+
     # print(merged_ss[merged_ss['offer_id(заказа)'] == 'ss-il-0071'])
-    spend_wo_leads = spend_wo_leads[spend_wo_leads['offer_id'].str.match(r'^[a-zA-Z]{2}-[a-zA-Z]{2}-\d{4}$', na=False)]
+    spend_wo_leads = spend_wo_leads[spend_wo_leads['offer_id'].str.match(r'^[a-zA-Z]{2}-[a-zA-Z]{2}-\d{4}(-[a-zA-Z]{2})?$', na=False)]
     spend_wo_leads = spend_wo_leads.rename(columns = {'spend':'Рекл.спенд.','leads': 'Лидов из ads'})
 
 
     merged_ss = merged_ss[(merged_ss['offer_id(заказа)'].notna())]
     merged_ss = merged_ss[~((merged_ss['offer_id(заказа)'] == 'ss-ss-0076') & (merged_ss['leads'] <= 0))]
-    # print(merged_ss)
     
     return merged_ss, spend_wo_leads, df_items_expanded
