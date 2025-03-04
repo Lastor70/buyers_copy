@@ -44,15 +44,15 @@ def process_orders_data_vykup(df, combined_df, df_payment, df_appruv_range, df_g
     df_v.dropna(subset=['buyer_id'], inplace=True)
     df_v['offer_id(товара)'] = df_v['Product_id'].apply(lambda x: '-'.join(x.split('-')[:3]))
     df_v['Загальна сума'] = df_v['Ціна товару'] * df_v['Кількість товару']
-
     df_v['Corresponding_Offer_Id_Found'] = df_v.apply(find_offer_id, args=(combined_df,), axis=1).fillna(0)
-    if b != 'ph':
-        df_v = df_v.loc[df_v['Corresponding_Offer_Id_Found'] == 1]
+    # if b != 'ph':
+        # df_v = df_v.loc[df_v['Corresponding_Offer_Id_Found'] == 1]
 
     avg_appruv_df = merged_ss[merged_ss['Кількість аппрувів'] >= 10]
     avg_appruv_value = avg_appruv_df['% Аппрува'].mean()
 
     df_vykup = df_v[df_v['Статус'].isin(['payoff'])]
+    print(df_vykup[['offer_id(заказа)','Назва товару']])
     vykup_new = count_unique_orders(df_vykup, 'Количество выкупов')
     sum_vykup = sum_per_order_id(df_vykup)
 
